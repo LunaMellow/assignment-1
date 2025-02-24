@@ -1,4 +1,4 @@
-package handlers
+package handler
 
 import (
 	"encoding/json"
@@ -9,44 +9,14 @@ import (
 	"time"
 )
 
-// Application version
-var version = "v1"
-
-// Application timer
-var startTime = time.Now()
-
-type StatusResponse struct {
-	CountriesNowAPI  int     `json:"countriesnowapi"`
-	RestCountriesAPI int     `json:"restcountriesapi"`
-	Version          string  `json:"version"`
-	Uptime           float64 `json:"uptime"`
-}
-
-func HandlerInfo(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case http.MethodGet:
-		log.Println("Received " + r.Method + " request on /info handler.")
-		w.WriteHeader(http.StatusOK)
-	default:
-		http.Error(w, "Method not supported", http.StatusNotImplemented)
-	}
-}
-
-func HandlerPopulation(w http.ResponseWriter, r *http.Request) {
-	switch r.Method {
-	case http.MethodGet:
-		log.Println("Received " + r.Method + " request on /population handler.")
-		w.WriteHeader(http.StatusOK)
-	default:
-		http.Error(w, "Method not supported", http.StatusNotImplemented)
-	}
-}
-
-func HandlerStatus(w http.ResponseWriter, r *http.Request) {
+// Status
+// Handler for /status /*
+func Status(w http.ResponseWriter, r *http.Request) {
 
 	// Method GET
 	if r.Method != http.MethodGet {
 		http.Error(w, "Method not supported", http.StatusNotImplemented)
+		log.Println("Unsupported method received", r.Method)
 		return
 	}
 
@@ -86,21 +56,24 @@ func HandlerStatus(w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Get API status codes
+
+	// CountriesNow
 	statusCountriesNow, errCountriesNow := checkAPI(urlCountriesNow)
 	if errCountriesNow != nil {
 		log.Println("CountriesNow", errCountriesNow)
 	}
+	// REST Countries
 	statusRestCountries, errRestCountries := checkAPI(urlRestCountries)
 	if errRestCountries != nil {
 		log.Println("RestCountries", errRestCountries)
 	}
 
-	uptime := time.Since(startTime).Round(time.Second)
+	uptime := time.Since(StartTime).Round(time.Second)
 
 	response := StatusResponse{
 		CountriesNowAPI:  statusCountriesNow,
 		RestCountriesAPI: statusRestCountries,
-		Version:          version,
+		Version:          Version,
 		Uptime:           uptime.Seconds(),
 	}
 

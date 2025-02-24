@@ -1,7 +1,7 @@
 package main
 
 import (
-	"assignment-1/handlers"
+	"assignment-1/handler"
 	"log"
 	"net/http"
 	"os"
@@ -21,11 +21,11 @@ func main() {
 	// Instantiate the router
 	router := http.NewServeMux()
 
-	// /{:two_letter_country_code}{?limit=10}
-	router.HandleFunc("/info", handlers.HandlerInfo)
-	// /{:two_letter_country_code}{?limit={:startYear-endYear}}
-	router.HandleFunc("/population", handlers.HandlerPopulation)
-	router.HandleFunc("/status", handlers.HandlerStatus)
+	// Set up handler endpoints
+	router.HandleFunc(handler.DEFAULT_PATH, handler.Empty)
+	router.HandleFunc(handler.INFO_PATH, handler.Info)
+	router.HandleFunc(handler.POPULATION_PATH, handler.Population)
+	router.HandleFunc(handler.STATUS_PATH, handler.Status)
 
 	// Start HTTP server
 	log.Println("Starting server on port " + port + " ...")
