@@ -16,6 +16,7 @@ type CountryInfo struct {
 	Cities  []string `json:"data"`
 }
 
+// CountryInfoFormatted /info endpoint formatted struct
 type CountryInfoFormatted struct {
 	Name       string            `json:"name"`
 	Continents []string          `json:"continents"`

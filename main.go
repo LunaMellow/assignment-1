@@ -31,6 +31,7 @@ func main() {
 	log.Println("Starting server on port " + port)
 	serveErr := http.ListenAndServe(":"+port, router)
 	if serveErr != nil {
+
 		log.Fatal(serveErr.Error())
 	}
 
