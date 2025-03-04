@@ -10,7 +10,7 @@ import (
 func Population(w http.ResponseWriter, r *http.Request) {
 	switch r.Method {
 	case http.MethodGet:
-		log.Println("Received " + r.Method + " request on /population handler.")
+		log.Printf("Received %s request on /population handler.", r.Method)
 		w.WriteHeader(http.StatusOK)
 	default:
 		http.Error(w, "Method not supported", http.StatusNotImplemented)

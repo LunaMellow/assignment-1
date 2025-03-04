@@ -22,13 +22,16 @@ func main() {
 	router := http.NewServeMux()
 
 	// Set up handler endpoints
-	router.HandleFunc(handler.DEFAULT_PATH, handler.Empty)
-	router.HandleFunc(handler.INFO_PATH, handler.Info)
-	router.HandleFunc(handler.POPULATION_PATH, handler.Population)
-	router.HandleFunc(handler.STATUS_PATH, handler.Status)
+	router.HandleFunc("/", handler.Empty)
+	router.HandleFunc(handler.DefaultPath, handler.Empty)
+	router.HandleFunc(handler.InfoPath+"/{countryCode}", handler.Info)
+	router.HandleFunc(handler.PopulationPath, handler.Population)
+	router.HandleFunc(handler.StatusPath, handler.Status)
 
-	// Start HTTP server
-	log.Println("Starting server on port " + port + " ...")
-	log.Fatal(http.ListenAndServe(":"+port, router))
+	log.Println("Starting server on port " + port)
+	serveErr := http.ListenAndServe(":"+port, router)
+	if serveErr != nil {
+		log.Fatal(serveErr.Error())
+	}
 
 }
