@@ -152,14 +152,14 @@ func filterPopulation(population CountryPopulation, limit string) (CountryPopula
 	limitRange := strings.Split(limit, "-")
 	if len(limitRange) != 2 || limitRange[0] == "" || limitRange[1] == "" {
 		log.Println("invalid limit range:", limitRange)
-		return CountryPopulation{}, errors.New("invalid limit range. Format (YYYY-YYYY)")
+		return CountryPopulation{}, errors.New("invalid limit range. Format (YYYY-YYYY). Limit (1960-2018)")
 	}
 
 	// Convert startYear to int
 	startYear, err := strconv.Atoi(limitRange[0])
 	if err != nil || startYear < 1960 || startYear > 2018 {
 		log.Println("invalid start year parameter. Format (YYYY-YYYY)")
-		return CountryPopulation{}, errors.New("invalid start range. Format (YYYY-YYYY)")
+		return CountryPopulation{}, errors.New("invalid start range. Limit (1960-2018)")
 	}
 
 	// Convert endYear to int

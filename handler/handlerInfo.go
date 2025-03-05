@@ -26,7 +26,7 @@ func Info(w http.ResponseWriter, r *http.Request) {
 
 		// Convert limit parameter to int
 		limitInt, err := strconv.Atoi(limit)
-		if err != nil && limit != "" {
+		if limitInt <= 0 || err != nil && limit != "" {
 			log.Println("could not convert limit to int:", err)
 			http.Error(w, "invalid limit", http.StatusBadRequest)
 			return
