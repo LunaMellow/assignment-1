@@ -28,6 +28,7 @@ func Status(w http.ResponseWriter, r *http.Request) {
 			// Get request
 			req, err := http.NewRequest(http.MethodGet, url, nil)
 			if err != nil {
+				log.Print("error creating request:", err)
 				return http.StatusInternalServerError, fmt.Errorf("error creating request: %v", err)
 			}
 
@@ -36,8 +37,10 @@ func Status(w http.ResponseWriter, r *http.Request) {
 			// Send client request
 			res, err := client.Do(req)
 			if err != nil {
-				return http.StatusServiceUnavailable, fmt.Errorf("error contacting API: %v", err)
+				log.Print("error executing request:", err)
+				return http.StatusServiceUnavailable, fmt.Errorf("error executing request: %v", err)
 			}
+
 			// Close client at end of scope
 			defer func(Body io.ReadCloser) {
 				err := Body.Close()
@@ -73,13 +76,13 @@ func Status(w http.ResponseWriter, r *http.Request) {
 		// Send the response
 		w.WriteHeader(http.StatusOK)
 		if err := json.NewEncoder(w).Encode(response); err != nil {
-			log.Println("Error encoding JSON response:", err)
-			http.Error(w, "Internal Server Error", http.StatusInternalServerError)
+			log.Println("error encoding JSON response:", err)
+			http.Error(w, "internal Server Error", http.StatusInternalServerError)
 		}
 
 	default:
-		http.Error(w, "Method not supported", http.StatusNotImplemented)
-		log.Println("Unsupported method received", r.Method)
+		log.Println("unsupported method received", r.Method)
+		http.Error(w, "method not supported", http.StatusNotImplemented)
 		return
 	}
 }

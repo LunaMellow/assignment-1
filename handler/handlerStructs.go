@@ -30,6 +30,16 @@ type CountryInfoFormatted struct {
 
 // CountryPopulation /population endpoint struct
 type CountryPopulation struct {
+	Data struct {
+		PopulationCounts []struct {
+			Year  int `json:"year"`
+			Value int `json:"value"`
+		} `json:"populationCounts"`
+	} `json:"data"`
+}
+
+// CountryPopulationFormatted /population endpoint formatted struct
+type CountryPopulationFormatted struct {
 	Mean   int `json:"mean"`
 	Values []struct {
 		Year  int `json:"year"`

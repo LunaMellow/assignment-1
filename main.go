@@ -25,7 +25,7 @@ func main() {
 	router.HandleFunc("/", handler.Empty)
 	router.HandleFunc(handler.DefaultPath, handler.Empty)
 	router.HandleFunc(handler.InfoPath+"/{countryCode}", handler.Info)
-	router.HandleFunc(handler.PopulationPath, handler.Population)
+	router.HandleFunc(handler.PopulationPath+"/{countryCode}", handler.Population)
 	router.HandleFunc(handler.StatusPath, handler.Status)
 
 	log.Println("Starting server on port " + port)
