@@ -16,7 +16,7 @@ func Empty(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "text/html")
 
 	// Offer user information about paths and accepted parameters
-	output := "This service does not provide any functionality on root path level. Please use paths:" +
+	output := "This service does not provide any functionality on root path level. Please use paths:<br>" +
 		"\n<a href=\"" + InfoPath + "\">" + InfoPath + "</a>" + "/{:two_letter_country_code}{?limit=10}<br>" +
 		"\n<a href=\"" + PopulationPath + "\">" + PopulationPath + "</a>" + "/{:two_letter_country_code}{?limit={:startYear-endYear}}<br>" +
 		"\n<a href=\"" + StatusPath + "\">" + StatusPath + "</a><br>"
