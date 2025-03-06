@@ -25,6 +25,13 @@ func Population(w http.ResponseWriter, r *http.Request) {
 		countryCode := r.PathValue("countryCode")
 		limit := r.URL.Query().Get("limit")
 
+		// Check if countrycode is valid
+		if len(countryCode) > 2 {
+			log.Println("country code not valid")
+			http.Error(w, "country code not valid: must be two letter iso country code", http.StatusBadRequest)
+			return
+		}
+
 		// Get country name from code
 		country, err := getCountry(countryCode)
 		if err != nil {

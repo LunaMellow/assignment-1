@@ -24,12 +24,23 @@ func Info(w http.ResponseWriter, r *http.Request) {
 		countryCode := r.PathValue("countryCode")
 		limit := r.URL.Query().Get("limit")
 
-		// Convert limit parameter to int
-		limitInt, err := strconv.Atoi(limit)
-		if limitInt <= 0 || err != nil && limit != "" {
-			log.Println("could not convert limit to int:", err)
-			http.Error(w, "invalid limit", http.StatusBadRequest)
+		// Check if countrycode is valid
+		if len(countryCode) > 2 {
+			log.Println("country code not valid")
+			http.Error(w, "country code not valid: must be two letter iso country code", http.StatusBadRequest)
 			return
+		}
+
+		// Convert limit parameter to int if it exists
+		limitInt := 0
+		if limit != "" {
+			var err error
+			limitInt, err = strconv.Atoi(limit)
+			if err != nil || limitInt <= 0 {
+				log.Println("invalid limit parameter:", limitInt, err)
+				http.Error(w, "invalid limit: must be a non-negative integer", http.StatusBadRequest)
+				return
+			}
 		}
 
 		// Api request url
